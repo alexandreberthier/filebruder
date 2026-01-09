@@ -36,7 +36,10 @@ const {options} = defineProps<{
   options: Option<T>[]
 }>()
 
-const selectedOptions: ModelRef<T[]> = defineModel('selectedOptions', {default: []})
+const selectedOptions = defineModel<T[]>('selectedOptions', {
+  default: () => [] as T[]
+})
+
 
 const isOpen: Ref<boolean> = ref(false)
 const dropDownRef = useTemplateRef<HTMLDivElement>('dropDownRef')
