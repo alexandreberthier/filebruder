@@ -60,7 +60,7 @@ const mandantInfos = [
   {id: 2, table: "t_Files_10248", languageId: -1},
   {id: 3, table: "t_Files_10252", languageId: -1},
   {id: 4, table: "t_Files_102401", languageId: -1},
-  {id: 5, table: "t_Files_102501", languageId: -1},
+  {id: 5, table: "t_Files_10250", languageId: -1},
 ]
 
 const selectedMandants = computed(() =>
