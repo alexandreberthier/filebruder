@@ -61,7 +61,9 @@ const mandantInfos = [
   {id: 2, table: "t_Files_10248", languageId: -1},
   {id: 3, table: "t_Files_10252", languageId: -1},
   {id: 4, table: "t_Files_102401", languageId: -1},
-  {id: 5, table: "t_Files_1024138143", languageId: 0},
+  {id: 5, table: "t_Files_10250", languageId: -1},
+  {id: 6, table: "t_Files_1024138143", languageId: 0},
+
 ]
 
 const selectedMandants = computed(() =>
@@ -96,7 +98,7 @@ const fileTypeMap: Record<string, number> = {
 
 async function generateSql() {
   if (!selectedMandants.value.length) {
-    alert("Kein Mandant kein SQL mein bV")
+    alert("Kein Mandant kein SQL mein bre")
     return
   }
 
