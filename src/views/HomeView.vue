@@ -53,6 +53,7 @@ const mandantOptions: Ref<Option<number>[]> = ref([
   {label: "spusu CH", value: 3},
   {label: "spusu IT", value: 4},
   {label: "spusu DE", value: 5},
+  {label: "spusu Bikes", value: 6},
 ])
 
 const mandantInfos = [
@@ -60,7 +61,7 @@ const mandantInfos = [
   {id: 2, table: "t_Files_10248", languageId: -1},
   {id: 3, table: "t_Files_10252", languageId: -1},
   {id: 4, table: "t_Files_102401", languageId: -1},
-  {id: 5, table: "t_Files_10250", languageId: -1},
+  {id: 5, table: "t_Files_1024138143", languageId: 0},
 ]
 
 const selectedMandants = computed(() =>
@@ -90,6 +91,7 @@ const fileTypeMap: Record<string, number> = {
   css: 6,
   js: 21,
   svg: 23,
+  webp: 0
 }
 
 async function generateSql() {
