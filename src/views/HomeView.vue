@@ -54,6 +54,7 @@ const mandantOptions: Ref<Option<number>[]> = ref([
   {label: "spusu IT", value: 4},
   {label: "spusu DE", value: 5},
   {label: "spusu Bikes", value: 6},
+  {label: "spusu Wein", value: 7},
 ])
 
 const mandantInfos = [
@@ -63,6 +64,7 @@ const mandantInfos = [
   {id: 4, table: "t_Files_102401", languageId: -1},
   {id: 5, table: "t_Files_10250", languageId: -1},
   {id: 6, table: "t_Files_1024138143", languageId: 0},
+  {id: 7, table: "t_Files_1024111314", languageId: 0},
 
 ]
 
