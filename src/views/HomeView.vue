@@ -140,6 +140,8 @@ function toggleAllMandants() {
 }
 
 function preventBrowserFileOpen(event: DragEvent) {
+  const target = event.target as HTMLElement | null
+  if (target?.closest('.drop-zone')) return
   event.preventDefault()
 }
 
