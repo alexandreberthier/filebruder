@@ -6,6 +6,21 @@
     src: url("../assets/fonts/Rubik-Regular.ttf") format("truetype");
 }
 
+:root {
+    --bg: #12002a;
+    --surface: #c0c0c0;
+    --panel: #d4d0c8;
+    --text: #000080;
+    --text-muted: #000000;
+    --chrome: #e8e8e8;
+    --magenta: #ff2bd6;
+    --cyan: #00f0ff;
+    --lime: #c8ff00;
+    --navy: #000080;
+    --danger: #ff003c;
+    --shadow: 4px 4px 0 #000;
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -13,11 +28,32 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-family: "Rubik", sans-serif;
-    font-size: 18px;
+    min-height: 100%;
+    font-family: Tahoma, Verdana, "Segoe UI", sans-serif;
+    font-size: 16px;
+    color: #000;
+    background-color: #090018;
+    background-image:
+        radial-gradient(#fff 1px, transparent 1px),
+        radial-gradient(#ff2bd6 1px, transparent 1px),
+        radial-gradient(#00f0ff 1px, transparent 1px),
+        linear-gradient(180deg, #2a0066 0%, #090018 55%, #001a33 100%);
+    background-size: 48px 48px, 72px 72px, 28px 28px, 100% 100%;
+    background-position: 0 0, 24px 12px, 8px 32px, 0 0;
 }
 
-p {
-    margin: 0;
+#app {
+    min-height: 100vh;
+}
 
+p, h1, h2, h3 {
+    margin: 0;
+}
+
+button, input {
+    font-family: inherit;
+}
+
+button {
+    appearance: none;
 }

@@ -1,31 +1,36 @@
 <template>
   <div ref="dropDownRef" class="dropdown-wrapper">
-    <div @click="toggleOptions" class="visible">
+    <button type="button" @click="toggleOptions" class="visible" :aria-expanded="isOpen">
       <div class="selected-options">
-        <p v-if="!selectedOptionObjects.length" class="">Mandant auswählen</p>
-        <div @click.stop="selectOption(selected.value)" v-for="(selected, index) in selectedOptionObjects" :key="index"
-             class="selected">
+        <p v-if="!selectedOptionObjects.length" class="placeholder">Auswählen...</p>
+        <div
+            v-for="(selected, index) in selectedOptionObjects"
+            :key="index"
+            class="selected"
+            @click.stop="selectOption(selected.value)"
+        >
           <p>{{ selected.label }}</p>
-          <img :src="getImage('ic_close.png')" alt="">
+          <span class="chip-close" aria-hidden="true">×</span>
         </div>
       </div>
-      <div class="icon-wrapper">
-        <img :class="{'rotate': isOpen}" :src="getImage('ic_chevron.png')" alt="">
-      </div>
-    </div>
-    <div v-if="isOpen" class="available-options">
-      <p :class="{'selected':selectedOptions?.includes(option.value) }"
-         @click="selectOption(option.value)"
-         v-for="(option, index) in options"
-         :key="index">{{ option.label }}
-      </p>
+      <span class="chevron" :class="{'rotate': isOpen}" aria-hidden="true">▼</span>
+    </button>
+    <div v-if="isOpen" class="available-options" role="listbox">
+      <button
+          type="button"
+          :class="{'option': true, 'selected': selectedOptions?.includes(option.value)}"
+          v-for="(option, index) in options"
+          :key="index"
+          @click="selectOption(option.value)"
+      >
+        {{ option.label }}
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts" generic="T">
-import {computed, type ModelRef, onMounted, onUnmounted, type Ref, ref, useTemplateRef} from "vue";
-import {getImage} from "@/helpers/ImageUtils.ts";
+import {computed, onMounted, onUnmounted, type Ref, ref, useTemplateRef} from "vue";
 
 export interface Option<T> {
   label: string,
@@ -39,7 +44,6 @@ const {options} = defineProps<{
 const selectedOptions = defineModel<T[]>('selectedOptions', {
   default: () => [] as T[]
 })
-
 
 const isOpen: Ref<boolean> = ref(false)
 const dropDownRef = useTemplateRef<HTMLDivElement>('dropDownRef')
@@ -60,7 +64,6 @@ const selectedOptionObjects = computed<Option<T>[]>(() => {
   )
 })
 
-
 function handleOutsideClick(event: Event) {
   if (dropDownRef.value && !dropDownRef.value.contains(event.target as Node)) {
     isOpen.value = false
@@ -74,99 +77,105 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick)
 })
-
-
 </script>
 
 <style scoped>
-
 .dropdown-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: fit-content;
-  min-width: 300px;
-  cursor: pointer;
+  width: 100%;
   position: relative;
-  background: white;
   z-index: 5;
+}
 
-  .visible {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-    border: 1px solid gray;
-    padding: 4px 12px;
-    gap: 32px;
-    height: 50px;
-    background: white;
+.visible {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 8px;
+  background: #fff;
+  border: 2px solid;
+  border-color: #404040 #fff #fff #404040;
+  cursor: pointer;
+  text-align: left;
+  color: #000;
+  box-shadow: inset 1px 1px 0 #808080;
+}
 
-    .selected-options {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+.selected-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
 
-      .selected {
-        background: lavender;
-        padding: 4px 8px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
+.placeholder {
+  color: #808080;
+}
 
-        img {
-          width: 14px;
-          height: 14px;
+.selected {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: #000080;
+  color: #fff;
+  border: 1px solid #00f0ff;
+}
 
-        }
-      }
-    }
+.chip-close {
+  color: #ff2bd6;
+  font-size: 14px;
+  line-height: 1;
+}
 
-    .icon-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+.chevron {
+  color: #000;
+  font-size: 10px;
 
-      img {
-        width: 24px;
-        height: 24px;
-        transition: all 250ms ease-in-out;
-
-        &.rotate {
-          transform: rotate(180deg);
-        }
-      }
-    }
-  }
-
-  .available-options {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    border: 1px solid gray;
-    padding: 4px 12px;
-    border-radius: 8px;
-    position: absolute;
-    left: 0;
-    top: 105%;
-    background: white;
-    width: 100%;
-
-
-    p {
-      padding: 8px;
-      border-radius: 8px;
-
-      &.selected {
-        background: lightgrey;
-      }
-
-      &:hover {
-        background: lavender;
-      }
-    }
+  &.rotate {
+    transform: rotate(180deg);
   }
 }
 
+.available-options {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 2px);
+  width: 100%;
+  background: #fff;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: 4px 4px 0 #000;
+  max-height: min(280px, 50vh);
+  overflow: auto;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: #000;
+  font-size: 14px;
+
+  &:hover {
+    background: #000080;
+    color: #fff;
+  }
+
+  &.selected {
+    background: #ff2bd6;
+    color: #fff;
+    font-weight: 700;
+  }
+}
 </style>
